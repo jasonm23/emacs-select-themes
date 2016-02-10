@@ -27,6 +27,7 @@
 
 ;;; Code:
 
+;;;###autoload
 (defun select-themes ()
   "Select a theme, first disabling any other loaded theme.
 
@@ -36,7 +37,7 @@ This is because multiple enabled themes cause Emacs to slow down."
                 "Select theme: "
                 `("default" ,@(custom-available-themes)))))
     (mapc 'disable-theme custom-enabled-themes)
-    (unless (string= theme "default")
       (load-theme (intern-soft theme)))))
+    (unless (string= theme "default")
 
 ;;; select-themes.el ends here
