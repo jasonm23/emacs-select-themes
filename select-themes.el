@@ -21,7 +21,7 @@
 
 ;;; Commentary:
 
-;; select-themes.el provides theme selection with default
+;; select-themes.el provides interactive theme selection using the default
 ;; completing-read interface, differs from M-x `load-theme' by
 ;; disabling other loaded themes first.
 
@@ -29,15 +29,21 @@
 
 ;;;###autoload
 (defun select-themes ()
-  "Select a theme, first disabling any other loaded theme.
+  "Interactively Select a theme, from the available custom themes.
 
-This is because multiple enabled themes cause Emacs to slow down."
+You can also select '-- Default --' to return to Emacs default theme.
+
+Note: multiple enabled themes cause Emacs to slow down, so we
+disable them before selecting the new theme."
   (interactive)
-  (let ((theme (completing-read
-                "Select theme: "
-                `("default" ,@(custom-available-themes)))))
+  (let ((theme
+         (completing-read
+          "Select theme: "
+          `("-- Default --" ,@(sort
+                         (mapcar 'symbol-name (custom-available-themes))
+                         'string< )))))
     (mapc 'disable-theme custom-enabled-themes)
+    (unless (string= "-- Default --" theme)
       (load-theme (intern-soft theme)))))
-    (unless (string= theme "default")
 
 ;;; select-themes.el ends here
