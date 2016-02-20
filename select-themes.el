@@ -4,7 +4,7 @@
 
 ;; Author: Jason Milkins <jasonm23@gmail.com>
 ;; URL: https://github.com/jasonm23/emacs-select-themes
-;; Version: 0.1.0
+;; Version: 0.1.3
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -28,22 +28,20 @@
 ;;; Code:
 
 ;;;###autoload
-(defun select-themes ()
-  "Interactively Select a theme, from the available custom themes.
+(defun select-themes (theme)
+  "Interactively select a THEME, from the available custom themes.
 
-You can also select '-- Default --' to return to Emacs default theme.
+You can also select '*Emacs default*' to return to Emacs default theme.
 
 Note: multiple enabled themes cause Emacs to slow down, so we
 disable them before selecting the new theme."
-  (interactive)
-  (let ((theme
-         (completing-read
-          "Select theme: "
-          `("-- Default --" ,@(sort
-                         (mapcar 'symbol-name (custom-available-themes))
-                         'string< )))))
-    (mapc 'disable-theme custom-enabled-themes)
-    (unless (string= "-- Default --" theme)
-      (load-theme (intern-soft theme)))))
+  (interactive (list (completing-read "Select theme: "
+                                (sort (custom-available-themes) 'string<)
+                                nil nil nil nil
+                                "*Emacs default*")))
+  (mapc 'disable-theme custom-enabled-themes)
+  (unless (string= "*Emacs default*" theme)
+    (load-theme (intern-soft theme))))
 
+(provide 'select-themes)
 ;;; select-themes.el ends here
