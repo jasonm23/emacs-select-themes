@@ -1,4 +1,4 @@
-;;; select-themes.el --- Color theme selection with completeing-read -*- lexical-binding: t; -*-
+;;; select-themes.el --- Color theme selection with completing-read -*- lexical-binding: t; -*-
 
 ;;  Copyright (c) 2016 by Jason Milkins
 
